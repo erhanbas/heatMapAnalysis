@@ -1,4 +1,4 @@
-function [pD_,Z,color]=dendClust(inX_,type,NumCluster)
+function [pD_,Z,color,NumCluster]=dendClust(inX_,type,NumCluster)
 %%
 % NumCluster =8;
 % Z = linkage(Y);
@@ -15,7 +15,6 @@ else
     pD = pD.*double(1-eye(numfiles));
 end
 %%
-% pD(pD>.99)=1;
 if nargin<3
     [aa,bb,cc]=find(1-pD);
     A = sparse(aa,bb,1,numfiles,numfiles);
@@ -23,14 +22,26 @@ if nargin<3
     [S,C] = graphconncomp(A);
     NumCluster=S;
 end
-%%
+
+[color,Z,NumCluster] = d2Z(pD,NumCluster);
 pD_=pD(find(triu(pD,1)'));
-Z = linkage(pD_','complete');
-% color = Z(end-NumCluster+2,3)-eps;
-color = Z(end-NumCluster+1,3);
-% color = Z(find(Z(:,3)==max(Z(:,3)),1)-NumCluster+2,3)-eps;
-NumCluster = sum(Z(:,3)>color);
-[NumCluster,color]
+% 
+% % pD(pD>.99)=1;
+% if nargin<3
+%     [aa,bb,cc]=find(1-pD);
+%     A = sparse(aa,bb,1,numfiles,numfiles);
+%     A=max(A',A);
+%     [S,C] = graphconncomp(A);
+%     NumCluster=S;
+% end
+% %%
+% pD_=pD(find(triu(pD,1)'));
+% Z = linkage(pD_','complete');
+% % color = Z(end-NumCluster+2,3)-eps;
+% color = Z(end-NumCluster+1,3);
+% % color = Z(find(Z(:,3)==max(Z(:,3)),1)-NumCluster+2,3)-eps;
+% NumCluster = sum(Z(:,3)>color-eps);
+% [NumCluster,color]
 
 % set(gca,'fontsize',6);
 %%
