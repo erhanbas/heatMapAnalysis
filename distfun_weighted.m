@@ -5,7 +5,8 @@ inds2process = find(triu(ones(numfiles),1));
 d1 = zeros(1,length(inds2process));
 d2 = zeros(1,length(inds2process));
 
-parfor kk=1:length(inds2process)
+%%
+for kk=1:length(inds2process)
     [jj,ii] = ind2sub([numfiles numfiles],inds2process(kk));
     XXj = XX(:,:,jj);
     XXj = XXj(all(XXj,2),:);

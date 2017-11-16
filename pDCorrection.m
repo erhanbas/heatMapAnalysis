@@ -20,7 +20,9 @@ for is = 1:numfiles
     ic = T(is);
     for js = is+1:numfiles
         jc = T(js);
-        pDupdated(is,js) = pDupdated(is,js) + dClust(ic,jc)/10;
+        if dClust(ic,jc)
+            pDupdated(is,js) = pDupdated(is,js) + dClust(ic,jc)/10;
+        end
     end
 end
 pDupdated = max(pDupdated,pDupdated');
