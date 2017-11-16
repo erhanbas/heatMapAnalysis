@@ -1,4 +1,4 @@
-function pDupdated = pDCorrection(dm,hpD_,hZ,NumCluster)
+function pDupdated = pDCorrection(dm,pDupdated,hZ,NumCluster)
 T = cluster(hZ,'MaxClust',NumCluster);
 % for cluster in T, find cluster distance
 NumCluster = max(T);
@@ -14,7 +14,7 @@ end
 dClust = max(dClust,dClust');
 
 % add shifts between xterms
-pDupdated = squareform(hpD_);
+% pDupdated = squareform(hpD_);
 numfiles = length(T);
 for is = 1:numfiles
     ic = T(is);

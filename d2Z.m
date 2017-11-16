@@ -8,9 +8,12 @@ if nargin<2
     [S,C] = graphconncomp(A);
     NumCluster=S;
 end
-
-pD_=pD(find(triu(pD,1)'));
-Z = linkage(pD_','complete');
+if size(pD,1)==size(pD,2) % square
+    pD_=pD(find(triu(pD,1)'));
+else
+    pD_=pD;
+end
+Z = linkage(pD_(:)','complete');
 color = Z(end-NumCluster+1,3);
 % color = Z(find(Z(:,3)==max(Z(:,3)),1)-NumCluster+2,3)-eps;
 % Z(Z(:,3)>color,1:2)>numfiles

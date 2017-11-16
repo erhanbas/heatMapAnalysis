@@ -1,4 +1,4 @@
-function [pD_,Z,color]=dendClust(inX_,type,NumCluster)
+function [pD,Z,color]=dendClust(inX_,type,NumCluster)
 %%
 % NumCluster =8;
 % Z = linkage(Y);
@@ -24,7 +24,6 @@ if nargin<3
 end
 
 [Z,color] = d2Z(pD,NumCluster);
-pD_=pD(find(triu(pD,1)'));
 
 %%
 if 0
