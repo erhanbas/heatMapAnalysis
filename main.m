@@ -2,9 +2,10 @@ clear all; close all;
 experiment = 'caudoputamen_isocortex';
 experiment = 'isocortex';
 experiment = 'caudoputamen'; 
-somafile = '/groups/mousebrainmicro/home/base/CODE/MATLAB/pipeline/heatMapAnalysis/Cortico-Striatum/SomaInfo.xlsx';
-inputfold = fullfile('./Cortico-Striatum/HeatMaps 2017-11-7',experiment);
-vizfolder = fullfile('./vizfold',experiment);
+
+somafile = fullfile(pwd,'Cortico-Striatum','SomaInfo.xlsx');
+inputfold = fullfile(pwd,'Cortico-Striatum','HeatMaps 2017-11-7',experiment);
+vizfolder = fullfile(pwd,'vizfold',experiment);
 
 [pDupdated,hpD,P,names,col_names] = createPlots(inputfold,experiment);
 
