@@ -13,7 +13,7 @@ if ischar(Inputs.anatomyMasks), Inputs.anatomyMasks = {Inputs.anatomyMasks}; end
 for mask = Inputs.anatomyMasks
     cMask = mask{:};
     %% Get distances
-    [pDupdated,hpD,P,names,names_colors] = createPlots(mainFolder,cMask);
+    [pDupdated,hpD,P,names] = createPlots(mainFolder,cMask);
     %% Get clusters.
     [upZ,upcolor] = d2Z(pDupdated);
     c = cluster(upZ,'Cutoff',Inputs.CutOff,'Criterion','distance'); % based on names
@@ -22,6 +22,7 @@ for mask = Inputs.anatomyMasks
     result.pwd = pDupdated;
     result.names = names;
     result.clust = c;
+    save(sprintf('output-%s',experiment),'output')
 end
 
 

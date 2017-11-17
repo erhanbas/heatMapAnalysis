@@ -1,5 +1,11 @@
 function labelcolor = recolortext(H,ax,ticklabels)
-
+%%
+% hAx = gca;
+% ticklabels = hAx.YTickLabel;
+% ticklabels_new = cell(size(ticklabels));
+% for i = 1:length(ticklabels)
+%     ticklabels_new{i} = ['\color{red} ' ticklabels{i}];
+% end
 ticklabels_new = ticklabels;
 X = reshape([H(:).XData]',4,[])';
 Y = reshape([H(:).YData]',4,[])';
@@ -10,7 +16,7 @@ labelcolor = zeros(length(ticklabels),3);
 for kk=1:length(ticklabels)
     namekk = ticklabels{kk};
     % find in H with that index
-    idxH = find((X(:,1)==0 & Y(:,1)==kk)|(X(:,4)==0 & Y(:,4)==kk));
+    idxH = find((X(:,1)==0 & Y(:,1)==kk)|(X(:,4)==kk & Y(:,4)==0));
     % color of line
     col_kk = H(idxH).Color;
     % set(H(idxH),'Color',[1 1 0])
@@ -21,4 +27,4 @@ for kk=1:length(ticklabels)
     labelcolor(kk,:) = col_kk;
 end
 % set the tick labels
-set(gca, 'YTickLabel', ticklabels_new);
+set(gca, 'XTickLabel', ticklabels_new);
