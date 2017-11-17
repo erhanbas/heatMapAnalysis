@@ -5,8 +5,12 @@ if nargin<2
     [aa,bb,cc]=find((1-pD)>0);
     A = sparse(aa,bb,1,numfiles,numfiles);
     A=max(A',A);
-    [S,C] = graphconncomp(A);
-    NumCluster=S;
+%     [S,C] = graphconncomp(A);
+%     NumCluster=S;
+
+    G = graph(A);
+    C = G.conncomp();
+    NumCluster=max(C);
 end
 if size(pD,1)==size(pD,2) % square
     pD_=pD(find(triu(pD,1)'));
