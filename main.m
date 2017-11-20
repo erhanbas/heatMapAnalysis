@@ -1,7 +1,7 @@
 clear all; close all;
 experiment = 'caudoputamen_isocortex';
-experiment = 'isocortex';
-experiment = 'caudoputamen'; 
+% experiment = 'isocortex';
+% experiment = 'caudoputamen'; 
 
 somafile = fullfile(pwd,'Cortico-Striatum','SomaInfo.xlsx');
 inputfold = fullfile(pwd,'Cortico-Striatum','HeatMaps 2017-11-7',experiment);
