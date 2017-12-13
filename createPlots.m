@@ -55,7 +55,7 @@ for type = {'jaccard'} % hist
     
     if exist('hcolorin','var')
         hcolor = hcolorin;
-        NumCluster = sum(hZ(:,3)==1);
+        NumCluster = sum(hZ(:,3)>=hcolor)+1;
     else
         hcolor = hcolorin;
     end
@@ -64,7 +64,7 @@ for type = {'jaccard'} % hist
         [pDupdated] = hpD;
     else
         % since tree there are #edge+1 clusters
-        pDupdated = pDCorrection(dm,hpD,hZ,NumCluster+1);
+        pDupdated = pDCorrection(dm,hpD,hZ,NumCluster);
         [upZ,upcolor] = d2Z(pDupdated);
         upcolor = hcolor;%1+sqrt(eps); % to preserve initial clustering result, set threshold to 1
         [H,P] = vizClust(upZ,upcolor,names,tag);

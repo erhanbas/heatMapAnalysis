@@ -19,7 +19,7 @@ inputfold = fullfile(pwd,test,'HeatMaps',experiment);
 
 
 vizfolder = fullfile(pwd,'vizfold',experiment);
-hcolorin = 1+eps;
+hcolorin = 1-eps;
 [pDupdated,hpD,P,names,col_names] = createPlots(inputfold,experiment,[],hcolorin);
 
 [upZ,upcolor] = d2Z(pDupdated);
