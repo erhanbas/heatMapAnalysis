@@ -1,4 +1,4 @@
-function [pDupdated,hpD,P,names,namesC] = createPlots(inputfold,experiment,vizfolder)
+function [pDupdated,hpD,P,names,namesC] = createPlots(inputfold,experiment,vizfolder,hcolorin)
 
 if nargin>3 & ~exist(vizfolder,'dir')
     mkdir(vizfolder)
@@ -32,6 +32,7 @@ for ii=1:numfiles
 end
 
 %%
+
 [h_data,hxyz_data,nhxyz_data] = prepareData(data);
 
 % pair distance based on mindistace-match-heatmap
@@ -45,30 +46,36 @@ for type = {'jaccard'} % hist
     %%
     % tag =  {'n0059','n0265'};
     tag = [];
-    [hpD,hZ,hcolor]=dendClust(h_data,type{1});
-    %hpD_=hpD(find(triu(hpD,1)'));
-
-    vizClust(hZ,hcolor,names,tag);
-    % title(sprintf('%s-base',type{1}))
-    % export_fig(fullfile(vizfolder,sprintf('%s-%s-base.tif',experiment,type)))
+    [hpD,hZ,hcolor,NumCluster]=dendClust(h_data,type{1});
+    if NumCluster==1 %based on cc
+        [H,P] = vizClust(hZ,hcolor+sqrt(eps),names,tag);
+    else
+        vizClust(hZ,hcolor,names,tag);
+    end
     
-    %cZ = cluster(hZ,'Cutoff',hcolor-eps,'Criterion','distance'); % based on names
-    %NumCluster = max(cZ);
+    if exist('hcolorin','var')
+        hcolor = hcolorin;
+        NumCluster = sum(hZ(:,3)==1);
+    else
+        hcolor = hcolorin;
+    end
     
-    % since tree there are #edge+1 clusters
-    NumCluster = sum(hZ(:,3)==1)+1;
-    pDupdated = pDCorrection(dm,hpD,hZ,NumCluster);
-    %%
-    [upZ,upcolor] = d2Z(pDupdated);
-    upcolor = 1; % to preserve initial clustering result, set threshold to 1
-    [H,P] = vizClust(upZ,upcolor,names,tag);
-   
+    if NumCluster==1 %based on cc
+        [pDupdated] = hpD;
+    else
+        % since tree there are #edge+1 clusters
+        pDupdated = pDCorrection(dm,hpD,hZ,NumCluster+1);
+        [upZ,upcolor] = d2Z(pDupdated);
+        upcolor = hcolor;%1+sqrt(eps); % to preserve initial clustering result, set threshold to 1
+        [H,P] = vizClust(upZ,upcolor,names,tag);
+    end
     ax = gca; % get the axes handle
     ticklabels = names(P);
     labelcolor = recolortext(H,ax,ticklabels);
     namesC=labelcolor;namesC(P,:)=labelcolor;
     title(sprintf('%s-clust',type{1}))
-    if exist('vizfolder','var')
+    if exist('vizfolder','var') & ~isempty(vizfolder)
         export_fig(fullfile(vizfolder,sprintf('%s-%s-clust.tif',experiment,type{1})))
     end
+    
 end

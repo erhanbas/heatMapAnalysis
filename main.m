@@ -1,13 +1,26 @@
 clear all; close all;
-experiment = 'caudoputamen_isocortex';
+
+% experiment = 'caudoputamen_isocortex';
 % experiment = 'isocortex';
 % experiment = 'caudoputamen'; 
+% somafile = fullfile(pwd,'Cortico-Striatum','SomaInfo.xlsx');
+% inputfold = fullfile(pwd,'Cortico-Striatum','HeatMaps',experiment);
 
-somafile = fullfile(pwd,'Cortico-Striatum','SomaInfo.xlsx');
-inputfold = fullfile(pwd,'Cortico-Striatum','HeatMaps 2017-11-7',experiment);
+if 1
+    experiment = 'caudoputamen_isocortex';
+    test = 'Cortico-Striatum'
+elseif 1
+    experiment = 'thalamus';
+    test = 'Cortico-Thalamic'
+end
+
+somafile = fullfile(pwd,test,'SomaInfo.xlsx');
+inputfold = fullfile(pwd,test,'HeatMaps',experiment);
+
+
 vizfolder = fullfile(pwd,'vizfold',experiment);
-
-[pDupdated,hpD,P,names,col_names] = createPlots(inputfold,experiment);
+hcolorin = 1+eps;
+[pDupdated,hpD,P,names,col_names] = createPlots(inputfold,experiment,[],hcolorin);
 
 [upZ,upcolor] = d2Z(pDupdated);
 c = cluster(upZ,'Cutoff',1,'Criterion','distance'); % based on names

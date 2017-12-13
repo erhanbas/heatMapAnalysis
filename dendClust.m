@@ -1,4 +1,4 @@
-function [pD,Z,color]=dendClust(inX_,type,NumCluster)
+function [pD,Z,color,NumCluster]=dendClust(inX_,type,NumCluster)
 %%
 % NumCluster =8;
 % Z = linkage(Y);
@@ -16,7 +16,8 @@ else
 end
 %%
 if nargin<3
-    [aa,bb,cc]=find(1-pD);
+    clustthr = sqrt(eps);
+    [aa,bb,cc]=find((1-pD)>clustthr);
     A = sparse(aa,bb,1,numfiles,numfiles);
     A=max(A',A);
     [S,C] = graphconncomp(A);

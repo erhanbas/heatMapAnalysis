@@ -2,7 +2,8 @@ function [Z,color] = d2Z(pD,NumCluster)
 
 numfiles = size(pD,1);
 if nargin<2
-    [aa,bb,cc]=find((1-pD)>0);
+    clustthr = sqrt(eps);
+    [aa,bb,cc]=find((1-pD)>clustthr);
     A = sparse(aa,bb,1,numfiles,numfiles);
     A=max(A',A);
     G = graph(A);
